@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ms_metier/mbook/mbook.iml" filepath="$PROJECT_DIR$/../ms_metier/mbook/mbook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ms_metier/mloanmanagement/mloanmanagement.iml" filepath="$PROJECT_DIR$/../ms_metier/mloanmanagement/mloanmanagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ms_metier/mperson/mperson.iml" filepath="$PROJECT_DIR$/../ms_metier/mperson/mperson.iml" />
+    </modules>
+  </component>
+</project>
