@@ -18,7 +18,7 @@ public class Loan {
     @Column(name = "date")
     private String date;
 
-    @Column(name = "is_second_loan")
+    @Column(name = "is_second")
     private int isSecondLoan;
 
     @ManyToOne(fetch = FetchType.EAGER)

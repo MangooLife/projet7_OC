@@ -33,7 +33,7 @@ public class Person {
     @ManyToMany(mappedBy = "loanPerson")
     @OrderBy
     @JsonIgnore
-    private Set<Loan> booking = new HashSet<Loan>();
+    private Set<Loan> loans = new HashSet<Loan>();
 
     public Person() {
     }
@@ -94,11 +94,11 @@ public class Person {
         this.status = status;
     }
 
-    public Set<Loan> getBooking() {
-        return booking;
+    public Set<Loan> getLoans() {
+        return loans;
     }
 
-    public void setBooking(Set<Loan> booking) {
-        this.booking = booking;
+    public void setLoans(Set<Loan> loans) {
+        this.loans = loans;
     }
 }

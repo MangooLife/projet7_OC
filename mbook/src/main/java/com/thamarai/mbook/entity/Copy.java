@@ -18,6 +18,9 @@ public class Copy {
     @Column(name = "reference_number")
     private int referenceNumber;
 
+    @Column(name = "is_available")
+    private int isAvailable;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="book_id", referencedColumnName = "id")
     @OrderBy
@@ -32,9 +35,10 @@ public class Copy {
     public Copy() {
     }
 
-    public Copy(int referenceNumber, Book book) {
+    public Copy(int referenceNumber, Book book, int isAvailable) {
         this.referenceNumber = referenceNumber;
         this.book = book;
+        this.isAvailable = isAvailable;
     }
 
     public Long getId() {
@@ -67,5 +71,13 @@ public class Copy {
 
     public void setLoan(Set<Loan> loan) {
         this.loan = loan;
+    }
+
+    public int getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(int isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }
