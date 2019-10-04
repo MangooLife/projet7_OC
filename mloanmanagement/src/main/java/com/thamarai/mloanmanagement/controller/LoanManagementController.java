@@ -32,6 +32,11 @@ public class LoanManagementController {
     @Autowired
     PersonService personService;
 
+    /**
+     * Get all loans by person id
+     * @param personId
+     * @return
+     */
     @RequestMapping(value = {"/myLoans/{personId}"}, method = RequestMethod.GET)
     public Set<Loan> getLoansById(@PathVariable Long personId) {
         LOGGER.info("getLoansById was called");
@@ -54,6 +59,11 @@ public class LoanManagementController {
         return loans;
     }
 
+    /**
+     * Set a loan by copy id
+     * @param copyId
+     * @return
+     */
     @RequestMapping(value = {"/loan"}, method = RequestMethod.POST)
     public Loan setLoan(
             @RequestParam Long copyId
@@ -85,6 +95,11 @@ public class LoanManagementController {
         return loan;
     }
 
+    /**
+     * Extend a loan by loan id
+     * @param loanId
+     * @return
+     */
     @RequestMapping(value = {"/extendLoan"}, method = RequestMethod.POST)
     public Loan extendLoan(
             @RequestParam Long loanId

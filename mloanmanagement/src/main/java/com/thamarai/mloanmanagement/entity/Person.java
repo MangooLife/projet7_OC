@@ -27,8 +27,8 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "is_admin")
+    private int isAdmin;
 
     @ManyToMany(mappedBy = "loanPerson")
     @OrderBy
@@ -38,12 +38,12 @@ public class Person {
     public Person() {
     }
 
-    public Person(String firstname, String lastname, String email, String password, String status) {
+    public Person(String firstname, String lastname, String email, String password, int isAdmin) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.status = status;
+        this.isAdmin = isAdmin;
     }
 
     public Long getId() {
@@ -86,12 +86,12 @@ public class Person {
         this.password = password;
     }
 
-    public String getStatus() {
-        return status;
+    public int getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public Set<Loan> getLoans() {
