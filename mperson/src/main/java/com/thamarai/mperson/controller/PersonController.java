@@ -20,36 +20,13 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @RequestMapping(value = {"/connect"}, method = RequestMethod.GET)
-    public String getConnectPage(
-            Model model,
-            HttpSession session
-    ) {
-        return "Page de connexion";
-    }
-
-    @RequestMapping(value = {"/disconnect"}, method = RequestMethod.GET)
-    public String getDisonnectPage(
-            Model model,
-            HttpSession session
-    ) {
-        return "Page de deconnexion";
-    }
-
-    @RequestMapping(value = {"/subscriptionPage"}, method = RequestMethod.GET)
-    public String getSubscriptionPage(
-            Model model,
-            HttpSession session
-    ) {
-        return "Page de souscription";
-    }
-
+    /**
+     * Get person page
+     * @param personId
+     * @return Person
+     */
     @RequestMapping(value = {"/person/{personId}"}, method = RequestMethod.GET)
-    public String getPersonPage(
-            Model model,
-            HttpSession session,
-            @PathVariable Long personId
-    ) {
+    public Person getPersonPage(@PathVariable Long personId) {
         Person person = null;
         try{
             person = personService.getPerson(personId).orElseThrow( () ->
@@ -58,18 +35,26 @@ public class PersonController {
         } catch (Exception e) {
             LOGGER.error("There is not Person with this id "+personId+" "+e);
         }
-        return "Page de connexion";
+        return person;
     }
 
+    /**
+     * Post sign in
+     * @param session
+     * @param redirectAttributes
+     * @param email
+     * @param password
+     * @return Person
+     */
     @RequestMapping(value = {"/signin"}, method = RequestMethod.POST)
-    public String signIn(
+    public Person signIn(
             HttpSession session,
             RedirectAttributes redirectAttributes,
             @RequestParam("email") String email,
             @RequestParam("password") String password
     ) {
+        Person person = null;
         if(personService.passwordOk(email, password)) {
-            Person person;
             try {
                 person = personService.authentificateUser(email).orElseThrow(() ->
                             new PersonNotFoundException("This person's mail doesn't exist "+email)
@@ -78,23 +63,30 @@ public class PersonController {
                 LOGGER.error("This person's mail doesn't exist "+email+" "+e);
                 redirectAttributes.addFlashAttribute(
                         "message", "L'username ou le mot de passe est mauvais");
-                return "Page connexion : problème (mdp ou email erroné)";
             }
             session.setAttribute("firstname", person.getFirstname());
             session.setAttribute("lastname", person.getLastname());
             session.setAttribute("isAdmin", person.getIsAdmin());
-            //return person(session, model, redirectAttributes);
-            return "Page person : Bien connecté";
+            return person;
         } else {
             redirectAttributes.addFlashAttribute(
                     "message", "L'username ou le mot de passe est mauvais");
-            // return new ModelAndView("redirect:/connexion");
-            return "Page connexion : problème (mdp ou email erroné)";
+            return person;
         }
     }
 
+    /**
+     * Post create new person
+     * @param session
+     * @param redirectAttributes
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param password
+     * @return Person
+     */
     @RequestMapping(value = {"/newPerson"}, method = RequestMethod.POST)
-    public String setPerson(
+    public Person setPerson(
             HttpSession session,
             RedirectAttributes redirectAttributes,
             @RequestParam("firstname") String firstname,
@@ -102,14 +94,13 @@ public class PersonController {
             @RequestParam("email") String email,
             @RequestParam("password") String password
     ) {
+        Person person = new Person();
         if(password.length() < 8) {
             redirectAttributes.addFlashAttribute(
                     "message", "Le mot de passe est trop petit");
-            //return new ModelAndView("redirect:/subscribe");
-            return "Mot de passe trop petit";
+            return person;
 
         } else {
-            Person person = new Person();
             person.setFirstname(firstname);
             person.setLastname(lastname);
             person.setPassword(password);
@@ -123,6 +114,6 @@ public class PersonController {
                     "messageSuccess", "Inscription réussite, bravo =)");
             //return person(session, model, redirectAttributes);
         }
-        return "Connexion réussite";
+        return person;
     }
 }

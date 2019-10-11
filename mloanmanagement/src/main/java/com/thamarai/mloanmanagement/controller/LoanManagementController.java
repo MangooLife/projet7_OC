@@ -35,7 +35,7 @@ public class LoanManagementController {
     /**
      * Get all loans by person id
      * @param personId
-     * @return
+     * @return Set<Loan>
      */
     @RequestMapping(value = {"/myLoans/{personId}"}, method = RequestMethod.GET)
     public Set<Loan> getLoansById(@PathVariable Long personId) {
@@ -62,7 +62,7 @@ public class LoanManagementController {
     /**
      * Set a loan by copy id
      * @param copyId
-     * @return
+     * @return Loan
      */
     @RequestMapping(value = {"/loan"}, method = RequestMethod.POST)
     public Loan setLoan(
@@ -98,7 +98,7 @@ public class LoanManagementController {
     /**
      * Extend a loan by loan id
      * @param loanId
-     * @return
+     * @return Loan
      */
     @RequestMapping(value = {"/extendLoan"}, method = RequestMethod.POST)
     public Loan extendLoan(

@@ -32,11 +32,10 @@ public class BookController {
 
     /**
      * Get all books
-     * @param model
-     * @return
+     * @return Set<Book>
      */
     @RequestMapping(value = {"/books"}, method = RequestMethod.GET)
-    public  Set<Book> getBooks(Model model) {
+    public  Set<Book> getBooks() {
         LOGGER.info("getBooks was called");
         Set<Book> books = (Set<Book>) bookService.getAllBooks();
         if(books == null) {
@@ -48,15 +47,11 @@ public class BookController {
 
     /**
      * Get book by id
-     * @param model
      * @param id
-     * @return
+     * @return Book
      */
     @RequestMapping(value = {"/book/{id}"}, method = RequestMethod.GET)
-    public Book getBook(
-            Model model,
-            @PathVariable Long id
-    ) {
+    public Book getBook(@PathVariable Long id) {
         LOGGER.info("getBook was called");
         Book book = null;
         try {
@@ -70,15 +65,11 @@ public class BookController {
 
     /**
      * Get all copies of a book by his id
-     * @param model
      * @param id
-     * @return
+     * @return Set<Book>
      */
-    @RequestMapping(value = {"/copies/{id}"}, method = RequestMethod.GET)
-    public  Set<Copy> getCopiesById(
-            Model model,
-            @PathVariable Long id
-     ) {
+    @GetMapping(value = {"/copies/{id}"})
+    public  Set<Copy> getCopiesById(@PathVariable Long id) {
         LOGGER.info("getCopiesById was called");
         Set<Copy> copies;
         try {
@@ -93,11 +84,10 @@ public class BookController {
 
     /**
      * Get all categories
-     * @param model
-     * @return
+     * @return List<Category>
      */
     @RequestMapping(value = {"/categories"}, method = RequestMethod.GET)
-    public List<Category> getCategories(Model model) {
+    public List<Category> getCategories() {
         LOGGER.info("getCategories was called");
         List<Category> categories;
         try {
@@ -112,7 +102,7 @@ public class BookController {
     /**
      * Get books by category
      * @param categoryId
-     * @return
+     * @return Set<Book>
      */
     @RequestMapping(value = {"/category"}, method = RequestMethod.POST)
     public Set<Book> getBooksByCategory(@RequestParam Long categoryId) {
@@ -137,7 +127,7 @@ public class BookController {
     /**
      * Get books by author
      * @param author
-     * @return
+     * @return Set<Book>
      */
     @RequestMapping(value = {"/author"}, method = RequestMethod.POST)
     public Set<Book> getBooksByAuthor(@RequestParam String author) {
@@ -155,7 +145,7 @@ public class BookController {
     /**
      * Get books by keyword
      * @param keyword
-     * @return
+     * @return Set<Book>
      */
     @RequestMapping(value = {"/search"}, method = RequestMethod.POST)
     public Set<Book> getBooksByKeyword(@RequestParam String keyword) {
