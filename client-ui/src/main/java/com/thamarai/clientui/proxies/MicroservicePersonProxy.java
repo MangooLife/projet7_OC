@@ -10,14 +10,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
-@FeignClient(name = "microservice-person", url = "localhost:9091")
+@FeignClient(contextId = "microservicePersonProxy", name = "zuul-server")
 public interface MicroservicePersonProxy {
     /**
      * Get person page
      * @param personId
      * @return Person
      */
-    @RequestMapping(value = {"/person/{personId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-person/person/{personId}"}, method = RequestMethod.GET)
     Person getPersonPage(@PathVariable Long personId);
 
     /**
@@ -28,7 +28,7 @@ public interface MicroservicePersonProxy {
      * @param password
      * @return Person
      */
-    @RequestMapping(value = {"/signin"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-person/signin"}, method = RequestMethod.POST)
     Person signIn(
             HttpSession session,
             RedirectAttributes redirectAttributes,
@@ -46,7 +46,7 @@ public interface MicroservicePersonProxy {
      * @param password
      * @return Person
      */
-    @RequestMapping(value = {"/newPerson"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-person/newPerson"}, method = RequestMethod.POST)
     Person setPerson(
             HttpSession session,
             RedirectAttributes redirectAttributes,

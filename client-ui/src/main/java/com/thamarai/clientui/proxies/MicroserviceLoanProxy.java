@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 
-@FeignClient(name = "microservice-loan", url = "localhost:9092")
+@FeignClient(contextId = "microserviceLoanProxy", name = "zuul-server")
 public interface MicroserviceLoanProxy {
 
     /**
@@ -17,7 +17,7 @@ public interface MicroserviceLoanProxy {
      * @param personId
      * @return Set<Loan>
      */
-    @RequestMapping(value = {"/myLoans/{personId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-loan/myLoans/{personId}"}, method = RequestMethod.GET)
     Set<Loan> getLoansById(@PathVariable Long personId);
 
     /**
@@ -25,7 +25,7 @@ public interface MicroserviceLoanProxy {
      * @param copyId
      * @return Loan
      */
-    @RequestMapping(value = {"/loan"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-loan/loan"}, method = RequestMethod.POST)
     Loan setLoan(@RequestParam Long copyId);
 
     /**
@@ -33,6 +33,6 @@ public interface MicroserviceLoanProxy {
      * @param loanId
      * @return Loan
      */
-    @RequestMapping(value = {"/extendLoan"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-loan/extendLoan"}, method = RequestMethod.POST)
     Loan extendLoan(@RequestParam Long loanId);
 }

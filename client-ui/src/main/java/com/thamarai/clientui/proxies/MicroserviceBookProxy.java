@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Set;
 
-@FeignClient(name = "microservice-book", url = "localhost:9090")
+@FeignClient(contextId = "microserviceBookProxy", name = "zuul-server")
 public interface MicroserviceBookProxy {
     /**
      * Get all books
      * @return Set<Book>
      */
-    @RequestMapping(value = {"/books"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-book/books"}, method = RequestMethod.GET)
     Set<Book> getBooks();
 
     /**
@@ -27,7 +27,7 @@ public interface MicroserviceBookProxy {
      * @param id
      * @return Book
      */
-    @RequestMapping(value = {"/book/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-book/book/{id}"}, method = RequestMethod.GET)
     Book getBook( @PathVariable Long id);
 
     /**
@@ -35,14 +35,14 @@ public interface MicroserviceBookProxy {
      * @param id
      * @return Set<Copy>
      */
-    @RequestMapping(value = {"/copies/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-book/copies/{id}"}, method = RequestMethod.GET)
     Set<Copy> getCopiesById(@PathVariable Long id);
 
     /**
      * Get all categories
      * @return List<Category>
      */
-    @RequestMapping(value = {"/categories"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/microservice-book/categories"}, method = RequestMethod.GET)
     List<Category> getCategories();
 
     /**
@@ -50,7 +50,7 @@ public interface MicroserviceBookProxy {
      * @param categoryId
      * @return Set<Book>
      */
-    @RequestMapping(value = {"/category"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-book/category"}, method = RequestMethod.POST)
     Set<Book> getBooksByCategory(@RequestParam Long categoryId);
 
     /**
@@ -58,7 +58,7 @@ public interface MicroserviceBookProxy {
      * @param author
      * @return Set<Book>
      */
-    @RequestMapping(value = {"/author"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-book/author"}, method = RequestMethod.POST)
     Set<Book> getBooksByAuthor(@RequestParam String author);
 
     /**
@@ -66,6 +66,6 @@ public interface MicroserviceBookProxy {
      * @param keyword
      * @return Set<Book>
      */
-    @RequestMapping(value = {"/search"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/microservice-book/search"}, method = RequestMethod.POST)
     Set<Book> getBooksByKeyword(@RequestParam String keyword);
 }
