@@ -3,7 +3,9 @@ package com.thamarai.mbook.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,7 +23,7 @@ public class Category {
     @ManyToMany(mappedBy = "bookCategories")
     @OrderBy
     @JsonIgnore
-    private Set<Book> books = new HashSet<Book>();
+    private List<Book> books = new ArrayList<Book>();
 
     public Category() {
     }
@@ -46,11 +48,11 @@ public class Category {
         this.name = name;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }

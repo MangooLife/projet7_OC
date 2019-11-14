@@ -32,12 +32,12 @@ public class BookController {
 
     /**
      * Get all books
-     * @return Set<Book>
+     * @return List<Book>
      */
     @RequestMapping(value = {"/books"}, method = RequestMethod.GET)
-    public  Set<Book> getBooks() {
+    public  List<Book> getBooks() {
         LOGGER.info("getBooks was called");
-        Set<Book> books = (Set<Book>) bookService.getAllBooks();
+        List<Book> books = bookService.getAllBooks();
         if(books == null) {
             LOGGER.error("There is any books in database...");
             throw new BookNotFoundException("There is any books in database...");
@@ -66,14 +66,14 @@ public class BookController {
     /**
      * Get all copies of a book by his id
      * @param id
-     * @return Set<Book>
+     * @return List<Book>
      */
     @GetMapping(value = {"/copies/{id}"})
-    public  Set<Copy> getCopiesById(@PathVariable Long id) {
+    public  List<Copy> getCopiesById(@PathVariable Long id) {
         LOGGER.info("getCopiesById was called");
-        Set<Copy> copies;
+        List<Copy> copies;
         try {
-            copies = (Set<Copy>) copyService.getCopiesByBookId(id);
+            copies = copyService.getCopiesByBookId(id);
         } catch (Exception e) {
             LOGGER.error("There is no copies in database with this book id "+id+" "+e);
             throw new BookNotFoundException("There is no copies in database with this book id "+id);
@@ -102,10 +102,10 @@ public class BookController {
     /**
      * Get books by category
      * @param categoryId
-     * @return Set<Book>
+     * @return List<Book>
      */
     @RequestMapping(value = {"/category"}, method = RequestMethod.POST)
-    public Set<Book> getBooksByCategory(@RequestParam Long categoryId) {
+    public List<Book> getBooksByCategory(@RequestParam Long categoryId) {
         LOGGER.info("getBooksByCategory was called");
         Category category;
         try {
@@ -114,7 +114,7 @@ public class BookController {
             LOGGER.error("There is no category in database for this category id"+categoryId+" "+e);
             throw new BookNotFoundException("There is no category in database for this category id"+categoryId+" "+e);
         }
-        Set<Book> books;
+        List<Book> books;
         try {
             books = category.getBooks();
         } catch (Exception e) {
@@ -127,12 +127,12 @@ public class BookController {
     /**
      * Get books by author
      * @param author
-     * @return Set<Book>
+     * @return List<Book>
      */
     @RequestMapping(value = {"/author"}, method = RequestMethod.POST)
-    public Set<Book> getBooksByAuthor(@RequestParam String author) {
+    public List<Book> getBooksByAuthor(@RequestParam String author) {
         LOGGER.info("getBooksByAuthor was called");
-        Set<Book> books;
+        List<Book> books;
         try {
             books = bookService.getBooksByAuthor(author);
         } catch (Exception e) {
@@ -148,9 +148,9 @@ public class BookController {
      * @return Set<Book>
      */
     @RequestMapping(value = {"/search"}, method = RequestMethod.POST)
-    public Set<Book> getBooksByKeyword(@RequestParam String keyword) {
+    public List<Book> getBooksByKeyword(@RequestParam String keyword) {
         LOGGER.info("getBooksByKeyword was called");
-        Set<Book> books;
+        List<Book> books;
         try {
             books = bookService.getBooksByKeyword(keyword);
         } catch (Exception e) {

@@ -1,24 +1,21 @@
 package com.thamarai.batch.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Loan {
 
     private Long id;
 
-    private String date;
+    private Date date;
 
     private int isSecondLoan;
 
-    private Copy copy;
-
-    private Set<Person> loanPerson  = new HashSet<Person>();
+    private int copy;
 
     public Loan() {
     }
 
-    public Loan(String date, int isSecondLoan, Copy copy) {
+    public Loan(Date date, int isSecondLoan, int copy) {
         this.date = date;
         this.isSecondLoan = isSecondLoan;
         this.copy = copy;
@@ -32,11 +29,11 @@ public class Loan {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -48,19 +45,11 @@ public class Loan {
         this.isSecondLoan = isSecondLoan;
     }
 
-    public Copy getCopy() {
+    public int getCopy() {
         return copy;
     }
 
-    public void setCopy(Copy copy) {
+    public void setCopy(int copy) {
         this.copy = copy;
-    }
-
-    public Set<Person> getLoanPerson() {
-        return loanPerson;
-    }
-
-    public void setLoanPerson(Set<Person> loanPerson) {
-        this.loanPerson = loanPerson;
     }
 }

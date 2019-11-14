@@ -5,9 +5,7 @@ import com.thamarai.mbook.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BookService {
@@ -15,22 +13,22 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Set<Book> getAllBooks() {
-        Set<Book> books = new HashSet<Book>();
+    public List<Book> getAllBooks() {
+        List<Book> books = new ArrayList<Book>();
         bookRepository.findAll()
                 .forEach(books::add);
         return books;
     }
 
-    public Set<Book> getBooksByAuthor(String author){
-        Set<Book> books = new HashSet<Book>();
+    public List<Book> getBooksByAuthor(String author){
+        List<Book> books = new ArrayList<Book>();
         bookRepository.getAllBooksByAuthor(author)
                 .forEach(books::add);
         return books;
     }
 
-    public Set<Book> getBooksByKeyword(String keyword){
-        Set<Book> books = new HashSet<Book>();
+    public List<Book> getBooksByKeyword(String keyword){
+        List<Book> books = new ArrayList<Book>();
         bookRepository.getAllBookByBookKeyword(keyword)
                 .forEach(books::add);
         return books;

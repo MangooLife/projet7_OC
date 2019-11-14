@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head lang="fr" th:insert="~{template :: head}">
+    <title>Bibliothèque du Vert Galant</title>
+</head>
+
+<body>
+<header th:insert="~{template :: header}"></header>
+<h1>Application Mcommerce</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 th:text= "${book.title}">
+            </h2>
+            <div class="card mb-3" style="margin-top:10px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        OK
+                    </div>
+                    <div class="col-md-6">
+                        OK
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <p th:text= "${book.description}"></p>
+                            <p th:text= "${book.author}"></p>
+                        </div>
+                        <div th:each="copy : ${copies}" class="col-md-4 my-1">
+                            <p th:text= "${copy.referenceNumber}"></p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<footer th:insert="~{template :: footer}"></footer>
+</body>
+</html>

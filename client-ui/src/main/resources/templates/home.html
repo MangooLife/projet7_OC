@@ -1,30 +1,23 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://thymeleaf.org">
-<head>
-    <title>Mcommerce</title>
+    <head lang="fr" th:insert="~{template :: head}">
+        <title>Bibliothèque du Vert Galant</title>
+    </head>
 
-    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+    <body>
+        <header th:insert="~{template :: header}"></header>
+        <div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
+            <h1>Application Mcommerce</h1>
 
-</head>
-<body>
-
-
-<div class="container">
-
-    <h1>Application Mcommerce</h1>
-
-    <div class="row">
-        <div th:each="category : ${categories}" class="col-md-4 my-1">
-                <p th:text= "${category.name}"></p>
-            </a>
+            <div class="row">
+                <div th:each="book : ${books}" class="col-md-4 my-1">
+                    <a th:href="@{/book/{path}(path=${book.id})}">
+                        <p th:text= "${book.title}"></p>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
-
-</div>
-
-
-<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
-
-</body>
+        <footer th:insert="~{template :: footer}"></footer>
+    </body>
 </html>

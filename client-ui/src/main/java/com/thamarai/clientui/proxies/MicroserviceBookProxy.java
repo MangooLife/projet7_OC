@@ -20,7 +20,7 @@ public interface MicroserviceBookProxy {
      * @return Set<Book>
      */
     @RequestMapping(value = {"/microservice-book/books"}, method = RequestMethod.GET)
-    Set<Book> getBooks();
+    List<Book> getBooks();
 
     /**
      * Get book by id
@@ -36,7 +36,7 @@ public interface MicroserviceBookProxy {
      * @return Set<Copy>
      */
     @RequestMapping(value = {"/microservice-book/copies/{id}"}, method = RequestMethod.GET)
-    Set<Copy> getCopiesById(@PathVariable Long id);
+    List<Copy> getCopiesById(@PathVariable Long id);
 
     /**
      * Get all categories
@@ -51,7 +51,7 @@ public interface MicroserviceBookProxy {
      * @return Set<Book>
      */
     @RequestMapping(value = {"/microservice-book/category"}, method = RequestMethod.POST)
-    Set<Book> getBooksByCategory(@RequestParam Long categoryId);
+    List<Book> getBooksByCategory(@RequestParam Long categoryId);
 
     /**
      * Get books by author

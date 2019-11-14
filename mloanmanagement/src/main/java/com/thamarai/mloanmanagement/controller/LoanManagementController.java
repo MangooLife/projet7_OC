@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @RestController
@@ -60,6 +58,63 @@ public class LoanManagementController {
     }
 
     /**
+     * Get all loans
+     * @return List<Loan>
+     */
+    @RequestMapping(value = {"/allLoans"}, method = RequestMethod.GET)
+    public List<Loan> getAllLoans() {
+        LOGGER.info("getAllLoans was called");
+        List<Loan> loans = null;
+        try {
+                loans = loanService.getAllLoans();
+        } catch(Exception e) {
+            LOGGER.error("There is no loans in database "+e);
+            throw new LoanNotFoundException("There is no loans in database "+e);
+        }
+        return loans;
+    }
+
+    /**
+     * Get all loans's person
+     * @return List<Person>
+     */
+    @RequestMapping(value = {"/allLoansPersonsLate"}, method = RequestMethod.GET)
+    public List<Person> getAllLoansPersonsLate() {
+        LOGGER.info("getAllLoansPersons was called");
+
+        List<Loan> allLoans = getAllLoans();
+        List<Person> persons = new ArrayList<Person>();
+
+        Date todayDate = new Date();
+
+        for (int i = 0; i < allLoans.size(); i++) {
+            Date loanDate = allLoans.get(i).getDate();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(loanDate);
+
+            calendar.add(Calendar.DATE, 30);
+
+            Date loanEndingDate = calendar.getTime();
+
+            if (todayDate.compareTo(loanEndingDate) > 0) {
+                LOGGER.info("Sending an email to user");
+                List<Person> person = null;
+                try {
+                    person = loanPerson(allLoans.get(i).getId());
+                } catch (Exception e) {
+                    LOGGER.error("There isn't person for this loan... " + allLoans.get(i).getId());
+                    throw new LoanNotFoundException("There isn't person for this loan..." + allLoans.get(i).getId() + ' ' + e);
+                }
+                Person personT = person.get(0);
+
+                persons.add(personT);
+            }
+        }
+        return persons;
+    }
+
+    /**
      * Set a loan by copy id
      * @param copyId
      * @return Loan
@@ -86,7 +141,7 @@ public class LoanManagementController {
         }
 
         Loan loan = new Loan();
-        loan.setDate(formatter.format(date));
+        loan.setDate(date);
         loan.setIsSecondLoan(0);
         loan.setCopy(copy);
 
@@ -116,7 +171,7 @@ public class LoanManagementController {
             Date date = new Date();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             loan.setIsSecondLoan(1);
-            loan.setDate(formatter.format(date));
+            loan.setDate(date);
             loanService.updateLoan(loanId, loan);
 
         } catch(Exception e) {
@@ -124,5 +179,32 @@ public class LoanManagementController {
         }
 
         return loan;
+    }
+
+    /**
+     * Get Loan's person
+     * @param loanId
+     * @return
+     */
+    @RequestMapping(value = {"/getLoanPerson/{loanId}"}, method = RequestMethod.GET)
+    public List<Person> loanPerson(
+            @PathVariable Long loanId
+    ) {
+        List<Person> person;
+        try {
+            Optional<Loan> optionalLoan = loanService.getLoan(loanId);
+            Loan loan = optionalLoan.get();
+            try {
+                person = loan.getLoanPerson();
+            } catch (Exception e) {
+                LOGGER.error("There is no person for this id "+loanId+" "+e);
+                throw new LoanNotFoundException("There is no person for this id "+loanId+" "+e);
+            }
+        } catch(Exception e) {
+            LOGGER.error("There is no loans for this id "+loanId+" "+e);
+            throw new LoanNotFoundException("There is no loans for this person id "+loanId+" "+e);
+        }
+
+        return person;
     }
 }

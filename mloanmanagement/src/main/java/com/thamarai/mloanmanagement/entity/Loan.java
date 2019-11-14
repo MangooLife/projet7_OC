@@ -3,8 +3,7 @@ package com.thamarai.mloanmanagement.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "loan")
@@ -16,7 +15,7 @@ public class Loan {
     private Long id;
 
     @Column(name = "date")
-    private String date;
+    private Date date;
 
     @Column(name = "is_second")
     private int isSecondLoan;
@@ -34,12 +33,12 @@ public class Loan {
             inverseJoinColumns = @JoinColumn(name = "person_id"))
     @OrderBy
     @JsonIgnore
-    private Set<Person> loanPerson  = new HashSet<Person>();
+    private List<Person> loanPerson  = new ArrayList<Person>();
 
     public Loan() {
     }
 
-    public Loan(String date, int isSecondLoan, Copy copy) {
+    public Loan(Date date, int isSecondLoan, Copy copy) {
         this.date = date;
         this.isSecondLoan = isSecondLoan;
         this.copy = copy;
@@ -53,11 +52,11 @@ public class Loan {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -77,11 +76,11 @@ public class Loan {
         this.copy = copy;
     }
 
-    public Set<Person> getLoanPerson() {
+    public List<Person> getLoanPerson() {
         return loanPerson;
     }
 
-    public void setLoanPerson(Set<Person> loanPerson) {
+    public void setLoanPerson(List<Person> loanPerson) {
         this.loanPerson = loanPerson;
     }
 }

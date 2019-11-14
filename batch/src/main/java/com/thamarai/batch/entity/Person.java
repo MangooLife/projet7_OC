@@ -17,8 +17,6 @@ public class Person {
 
     private String status;
 
-    private Set<Loan> loans = new HashSet<Loan>();
-
     public Person() {
     }
 
@@ -76,13 +74,5 @@ public class Person {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Set<Loan> getLoans() {
-        return loans;
-    }
-
-    public void setLoans(Set<Loan> loans) {
-        this.loans = loans;
     }
 }

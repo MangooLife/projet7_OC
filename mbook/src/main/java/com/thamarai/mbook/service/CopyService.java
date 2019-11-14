@@ -5,9 +5,7 @@ import com.thamarai.mbook.repository.CopyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CopyService {
@@ -15,16 +13,15 @@ public class CopyService {
     @Autowired
     private CopyRepository copyRepository;
 
-    public Set<Copy> getAllCopies() {
-        Set<Copy> copies = new HashSet<Copy>();
+    public List<Copy> getAllCopies() {
+        List<Copy> copies = new ArrayList<Copy>();
         copyRepository.findAll()
                 .forEach(copies::add);
         return copies;
     }
 
-    public Set<Copy> getCopiesByBookId(Long id) {
-        Set<Copy> copies = copyRepository.getAllCopiesByBookId(id);
-        copies.forEach(copies::add);
+    public List<Copy> getCopiesByBookId(Long id) {
+        List<Copy> copies = copyRepository.getAllCopiesByBookId(id);
         return copies;
     }
 

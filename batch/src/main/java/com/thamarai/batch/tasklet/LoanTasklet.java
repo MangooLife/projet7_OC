@@ -1,9 +1,7 @@
 package com.thamarai.batch.tasklet;
 
-import com.thamarai.batch.entity.Loan;
 import com.thamarai.batch.entity.Person;
-import com.thamarai.batch.exception.BatchNotFoundException;
-import com.thamarai.batch.service.LoanService;
+import com.thamarai.batch.proxies.MicroserviceLoanBatchProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.batch.core.StepContribution;
@@ -12,66 +10,43 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class LoanTasklet  implements Tasklet {
+@Component
+public class LoanTasklet implements Tasklet {
 
     private static final Logger LOGGER = LogManager.getLogger(LoanTasklet.class);
 
-    @Autowired
-    LoanService loanService;
+    private JavaMailSender javaMailSender;
 
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception
+    private List<Person> persons;
+
+    public LoanTasklet(List<Person> persons, JavaMailSender javaMailSender) {
+        this.persons = persons;
+        this.javaMailSender = javaMailSender;
+    }
+
+    @Override
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext)
     {
-        LOGGER.info("LoanTasklet start..");
+        persons.stream().forEach(p -> {
+            SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+            simpleMailMessage.setTo(p.getEmail());
 
-        List<Loan> allLoans = null;
-
-        Date todayDate = new Date();
-
-        try {
-            allLoans = loanService.getAllLoans();
-
-            allLoans.stream().forEach(loan -> {
-                Date loanDate = loan.getDate();
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(loanDate);
-
-                calendar.add(Calendar.DATE, 30);
-
-                Date loanEndingDate = calendar.getTime();
-
-                if(loanDate.compareTo(loanEndingDate) > 0) {
-                    LOGGER.info("Sending an email to user");
-                    loan.getLoanPerson().stream().forEach(this::sendEmail);
-                }
-            });
-        } catch (Exception e) {
-            LOGGER.error("There isn't loan in database...");
-            throw new BatchNotFoundException("There isn't loan in database..."+e);
-        }
-
-        LOGGER.info("LoanTasklet done..");
+            simpleMailMessage.setSubject("Retard dans vos emprunts");
+            simpleMailMessage.setText(
+                    "Bonjour "+p.getFirstname()+" "+p.getLastname()+" \n"
+                            +"Vous avez des retards d'emprunt \n"
+                            +"Veuillez faire le nécessaire pour être en règle. \n"
+                            +"Cordialement, \n"
+                            +"La direction de la bibliothèque."
+            );
+            javaMailSender.send(simpleMailMessage);
+        });
 
         return RepeatStatus.FINISHED;
     }
-
-    private void sendEmail(Person person) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(person.getEmail());
-
-        simpleMailMessage.setSubject("Retard dans vos emprunts");
-        simpleMailMessage.setText(
-                "Bonjour "+person.getFirstname()+" "+person.getLastname()+" \n"
-                +"Vous avez des retards d'emprunt \n"
-                +"Veuillez faire le nécessaire pour être en règle. \n"
-                +"Cordialement, \n"
-                +"La direction de la bibliothèque."
-        );
-    }
-
 }
