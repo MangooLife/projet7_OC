@@ -23,7 +23,6 @@ public class Loan {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="copy_id", referencedColumnName = "id")
     @OrderBy
-    @JsonIgnore
     private Copy copy;
 
     @ManyToMany(fetch = FetchType.EAGER)

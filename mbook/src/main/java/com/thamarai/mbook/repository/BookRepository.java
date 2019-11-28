@@ -10,9 +10,9 @@ import java.util.*;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
 
-    @Query(value = "SELECT * FROM Book b WHERE b.author = ?", nativeQuery = true)
-    Set<Book> getAllBooksByAuthor(String author);
+    @Query(value = "SELECT * FROM Book b WHERE author LIKE '%in%'", nativeQuery = true)
+    List<Book> findByAuthorLike(String author);
 
-    @Query(value = "SELECT * FROM Book b WHERE b.title = ?", nativeQuery = true)
-    Set<Book> getAllBookByBookKeyword(String keyword);
+    @Query(value = "SELECT * FROM Book b WHERE title  OR AUTHOR OR DESCRIPTION LIKE '%in%'", nativeQuery = true)
+    List<Book> findByKeywordLike(String keyword);
 }

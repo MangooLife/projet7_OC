@@ -1,5 +1,7 @@
 package com.thamarai.clientui.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +17,11 @@ public class Person {
 
     private String password;
 
+    private int isAdmin;
+
     private String status;
 
+    @JsonIgnore
     private Set<Loan> loans = new HashSet<Loan>();
 
     public Person() {
@@ -68,6 +73,14 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public String getStatus() {

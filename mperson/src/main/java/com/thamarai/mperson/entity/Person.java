@@ -1,6 +1,7 @@
 package com.thamarai.mperson.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ public class Person {
     @ManyToMany(mappedBy = "loanPerson")
     @OrderBy
     @JsonIgnore
+    @JsonManagedReference
     private Set<Loan> loans = new HashSet<Loan>();
 
     public Person() {

@@ -30,6 +30,24 @@ public class BookController {
     @Autowired
     private CategoryService categoryService;
 
+    private List<Book> getListBookByCategory(@PathVariable Long categoryId) {
+        Category category;
+        try {
+            category = categoryService.getCategory(categoryId).get();
+        } catch (Exception e) {
+            LOGGER.error("There is no category in database for this category id"+categoryId+" "+e);
+            throw new BookNotFoundException("There is no category in database for this category id"+categoryId+" "+e);
+        }
+        List<Book> books;
+        try {
+            books = category.getBooks();
+        } catch (Exception e) {
+            LOGGER.error("There is no books in database for this category id"+categoryId+" "+e);
+            throw new BookNotFoundException("There is no books in database for this category id"+categoryId+" "+e);
+        }
+        return books;
+    }
+
     /**
      * Get all books
      * @return List<Book>
@@ -97,6 +115,17 @@ public class BookController {
             throw new BookNotFoundException("There is no catagories in database...");
         }
         return categories;
+    }
+
+    /**
+     * Get books by category
+     * @param categoryId
+     * @return List<Book>
+     */
+    @RequestMapping(value = {"/category/{categoryId}"}, method = RequestMethod.GET)
+    public List<Book> getBooksByCategoryId(@PathVariable Long categoryId) {
+        LOGGER.info("getBooksByCategoryId was called");
+        return getListBookByCategory(categoryId);
     }
 
     /**

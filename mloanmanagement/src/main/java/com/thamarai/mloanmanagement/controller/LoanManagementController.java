@@ -155,9 +155,9 @@ public class LoanManagementController {
      * @param loanId
      * @return Loan
      */
-    @RequestMapping(value = {"/extendLoan"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/extendLoan/{loanId}"}, method = RequestMethod.POST)
     public Loan extendLoan(
-            @RequestParam Long loanId
+            @PathVariable Long loanId
     ) {
         Loan loan = null;
         try {

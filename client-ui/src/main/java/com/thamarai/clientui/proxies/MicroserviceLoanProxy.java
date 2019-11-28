@@ -2,10 +2,7 @@ package com.thamarai.clientui.proxies;
 
 import com.thamarai.clientui.entity.Loan;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -19,14 +16,14 @@ public interface MicroserviceLoanProxy {
      * @return Set<Loan>
      */
     @RequestMapping(value = {"/microservice-loan/myLoans/{personId}"}, method = RequestMethod.GET)
-    Set<Loan> getLoansById(@PathVariable Long personId);
+    List<Loan> getLoansById(@PathVariable Long personId);
 
     /**
      * Get all loans
      * @return List<Loan>
      */
     @RequestMapping(value = {"/microservice-loan/allLoans"}, method = RequestMethod.GET)
-    List<Loan> getAllLoans();
+    @ResponseBody List<Loan> getAllLoans();
 
     /**
      * Set a loan by copy id
@@ -41,6 +38,6 @@ public interface MicroserviceLoanProxy {
      * @param loanId
      * @return Loan
      */
-    @RequestMapping(value = {"/microservice-loan/extendLoan"}, method = RequestMethod.POST)
-    Loan extendLoan(@RequestParam Long loanId);
+    @RequestMapping(value = {"/microservice-loan/extendLoan/{loanId}"}, method = RequestMethod.POST)
+    Loan extendLoan(@PathVariable Long loanId);
 }

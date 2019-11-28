@@ -1,9 +1,9 @@
 package com.thamarai.clientui.controller;
 
-import com.thamarai.clientui.entity.Book;
-import com.thamarai.clientui.entity.Category;
-import com.thamarai.clientui.entity.Copy;
+import com.thamarai.clientui.entity.*;
 import com.thamarai.clientui.proxies.MicroserviceBookProxy;
+import com.thamarai.clientui.proxies.MicroserviceLoanProxy;
+import com.thamarai.clientui.proxies.MicroservicePersonProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,16 @@ public class ClientUIController {
     @Autowired
     private MicroserviceBookProxy microserviceBookProxy;
 
+    @Autowired
+    private MicroservicePersonProxy microservicePersonProxy;
+
+    @Autowired
+    private MicroserviceLoanProxy microserviceLoanProxy;
+
+    /**
+     * HOME PART
+     */
+
     /**
      * Get Home page
      * @param model
@@ -35,11 +45,15 @@ public class ClientUIController {
         List<Book> books = microserviceBookProxy.getBooks();
         model.addAttribute("books", books);
 
-        List<Category> catagories = microserviceBookProxy.getCategories();
-        model.addAttribute("categories", catagories);
+        List<Category> categories = microserviceBookProxy.getCategories();
+        model.addAttribute("categories", categories);
 
         return "home";
     }
+
+    /**
+     * BOOK PART
+     */
 
     @RequestMapping(value = {"/book/{id}"}, method = RequestMethod.GET)
     public String site(@PathVariable("id") final Long id, Model model) {
@@ -50,4 +64,5 @@ public class ClientUIController {
         model.addAttribute("copies", copies);
         return "book";
     }
+
 }

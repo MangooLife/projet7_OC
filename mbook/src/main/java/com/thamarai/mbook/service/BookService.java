@@ -21,16 +21,12 @@ public class BookService {
     }
 
     public List<Book> getBooksByAuthor(String author){
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.getAllBooksByAuthor(author)
-                .forEach(books::add);
+        List<Book> books = bookRepository.findByAuthorLike(author);
         return books;
     }
 
     public List<Book> getBooksByKeyword(String keyword){
-        List<Book> books = new ArrayList<Book>();
-        bookRepository.getAllBookByBookKeyword(keyword)
-                .forEach(books::add);
+        List<Book> books = bookRepository.findByKeywordLike(keyword);
         return books;
     }
 

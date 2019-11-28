@@ -1,6 +1,5 @@
 package com.thamarai.clientui.proxies;
 
-
 import com.thamarai.clientui.entity.Book;
 import com.thamarai.clientui.entity.Category;
 import com.thamarai.clientui.entity.Copy;
@@ -48,6 +47,14 @@ public interface MicroserviceBookProxy {
     /**
      * Get books by category
      * @param categoryId
+     * @return List<Book>
+     */
+    @RequestMapping(value = {"/microservice-book/category/{categoryId}"}, method = RequestMethod.GET)
+    List<Book> getBooksByCategoryId(@PathVariable Long categoryId);
+
+    /**
+     * Get books by category
+     * @param categoryId
      * @return Set<Book>
      */
     @RequestMapping(value = {"/microservice-book/category"}, method = RequestMethod.POST)
@@ -59,7 +66,7 @@ public interface MicroserviceBookProxy {
      * @return Set<Book>
      */
     @RequestMapping(value = {"/microservice-book/author"}, method = RequestMethod.POST)
-    Set<Book> getBooksByAuthor(@RequestParam String author);
+    List<Book> getBooksByAuthor(@RequestParam String author);
 
     /**
      * Get books by keyword
@@ -67,5 +74,5 @@ public interface MicroserviceBookProxy {
      * @return Set<Book>
      */
     @RequestMapping(value = {"/microservice-book/search"}, method = RequestMethod.POST)
-    Set<Book> getBooksByKeyword(@RequestParam String keyword);
+    List<Book> getBooksByKeyword(@RequestParam String keyword);
 }

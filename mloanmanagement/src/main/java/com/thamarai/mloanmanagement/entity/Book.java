@@ -18,6 +18,9 @@ public class Book {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "author")
     private String author;
 
@@ -55,6 +58,14 @@ public class Book {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
