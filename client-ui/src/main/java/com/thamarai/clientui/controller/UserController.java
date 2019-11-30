@@ -37,11 +37,11 @@ public class UserController {
     /**
      * Post create new person
      * @param session
+     * @param redirectAttributes
      * @param firstname
      * @param lastname
      * @param email
      * @param password
-     * @return Person
      */
     @RequestMapping(value = {"/newPerson"}, method = RequestMethod.POST)
     public ModelAndView setPerson(
@@ -65,11 +65,13 @@ public class UserController {
     }
 
     /**
-     * Post sign in
+     * Signin method
      * @param session
+     * @param model
+     * @param redirectAttributes
      * @param email
      * @param password
-     * @return Person
+     * @return
      */
     @RequestMapping(value = {"/signin"}, method = RequestMethod.POST)
     public String signIn(
@@ -96,15 +98,15 @@ public class UserController {
     }
 
     /**
-     * Post sign out
-     * @return String
+     * Post signout
+     * @param redirectAttributes
+     * @param session
+     * @return
      */
     @RequestMapping(value = {"/signout"}, method = RequestMethod.GET)
     public String signOut(
-            Model model,
             RedirectAttributes redirectAttributes,
-            HttpSession session,
-            String template
+            HttpSession session
     ) {
         LOGGER.debug("Deconnexion page OK");
         session.removeAttribute("firstname");
@@ -117,6 +119,12 @@ public class UserController {
         return "redirect:/";
     }
 
+    /**
+     * Return user page with his informations
+     * @param model
+     * @param session
+     * @param id
+     */
     @RequestMapping("/person/{id}")
     public ModelAndView person(
             Model model,
@@ -135,6 +143,13 @@ public class UserController {
         return new ModelAndView ("connectedPage");
     }
 
+    /**
+     * Extend loan
+     * @param session
+     * @param redirectAttributes
+     * @param loanId
+     * @return
+     */
     @RequestMapping("/extendLoan/{loanId}")
     public ModelAndView person(
             HttpSession session,

@@ -4,8 +4,6 @@ import com.thamarai.clientui.entity.Person;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @FeignClient(contextId = "microservicePersonProxy", name = "zuul-server")
 public interface MicroservicePersonProxy {
     /**
@@ -20,7 +18,7 @@ public interface MicroservicePersonProxy {
      * Post sign in
      * @param email
      * @param password
-     * @return String
+     * @return Person
      */
     @RequestMapping(value = {"/microservice-person/signin"}, method = RequestMethod.POST)
     Person signIn(
@@ -28,14 +26,12 @@ public interface MicroservicePersonProxy {
             @RequestParam("password") String password
     );
 
-
     /**
      * Post create new person
      * @param firstname
      * @param lastname
      * @param email
      * @param password
-     * @return Person
      */
     @RequestMapping(value = {"/microservice-person/newPerson"}, method = RequestMethod.POST)
     void setPerson(

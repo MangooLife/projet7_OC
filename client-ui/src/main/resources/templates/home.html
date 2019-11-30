@@ -23,33 +23,19 @@
                     <div class="col-md-12" id="categories">
                         <h4>Nos catégories</h4>
                     </div>
-                    <div class="row border border-primary" xmlns:th="http://www.w3.org/1999/xhtml">
-                        <div th:if="${books == null}">
-                            <p>Pas de sites pour le moment...</p>
-                        </div>
-                        <div th:if="${book != null}" th:each="book : ${books}" class="card col-lg-4 col-sm-12 bookHome">
-                            <img th:if="${book.image != null}" th:src="@{${book.image}}"
-                            width="200" height="300" class="card-img-top" alt="...">
-                            <img th:if="${book.image == null}" th:src="@{/images/MML.png}"
-                            width="200" height="300" class="card-img-top" alt="..." />
-                            <div class="card-body">
-                                <a th:href="@{/book/{path}(path=${book.id})}">
-                                    <h5 class="card-title" th:text= "${book.title}"></h5>
-                                </a>
-                                <p class="card-text" th:text= "${book.description}"></p>
-                                <a th:href="@{/book/{path}(path=${book.id})}" class="btn btn-primary" target="_blank">Plus d'info ></a>
-                            </div>
-                        </div>
+                    <div class="row border border-primary" xmlns:th="http://www.w3.org/1999/xhtml" style="padding:25px;">
+                        <div th:insert="~{categories :: categoriesInfo}"></div>
                     </div>
                     <div class="col-md-12" style="padding-top:35px;" id="searching">
                         <h4>Un livre ?</h4>
                     </div>
-                    <div class="row  border border-primary" xmlns:th="http://www.w3.org/1999/xhtml">
+                    <div class="row border border-primary" xmlns:th="http://www.w3.org/1999/xhtml">
                         <div class="card col-md-4 col-lg-4" style="margin:0px;padding:10px;">
                             <div class="row">
                                 <div class="col-md-12">
                                     <h3>
                                         Par catégorie
+
                                     </h3>
                                     <form th:action="@{/searchByCategory/}"
                                     method='POST' enctype="multipart/form-data"

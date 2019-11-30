@@ -1,7 +1,10 @@
 package com.thamarai.clientui.configuration;
 
 import brave.sampler.Sampler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class SleuthConfig {
@@ -10,4 +13,15 @@ public class SleuthConfig {
     public Sampler defaultSampler(){
         return Sampler.ALWAYS_SAMPLE;
     }
+
+    /*@Bean
+    public RestTemplate restTemplate() {
+
+        var factory = new SimpleClientHttpRequestFactory();
+
+        factory.setConnectTimeout(3000);
+        factory.setReadTimeout(3000);
+
+        return new RestTemplate(factory);
+    }*/
 }

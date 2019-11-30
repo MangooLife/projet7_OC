@@ -33,7 +33,6 @@ public class Book {
     private Set<Copy> copies = new HashSet<Copy>();
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JsonIgnore
     @JoinTable(
             name = "book_categories",
             joinColumns = @JoinColumn(name = "book_id"),
