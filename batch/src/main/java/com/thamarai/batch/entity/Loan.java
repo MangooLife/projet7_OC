@@ -10,12 +10,12 @@ public class Loan {
 
     private int isSecondLoan;
 
-    private int copy;
+    private Copy copy;
 
     public Loan() {
     }
 
-    public Loan(Date date, int isSecondLoan, int copy) {
+    public Loan(Date date, int isSecondLoan, Copy copy) {
         this.date = date;
         this.isSecondLoan = isSecondLoan;
         this.copy = copy;
@@ -45,11 +45,11 @@ public class Loan {
         this.isSecondLoan = isSecondLoan;
     }
 
-    public int getCopy() {
+    public Copy getCopy() {
         return copy;
     }
 
-    public void setCopy(int copy) {
+    public void setCopy(Copy copy) {
         this.copy = copy;
     }
 }

@@ -1,8 +1,5 @@
 package com.thamarai.batch.configuration;
 
-import com.thamarai.batch.entity.Loan;
-import com.thamarai.batch.entity.Person;
-import com.thamarai.batch.exception.BatchNotFoundException;
 import com.thamarai.batch.proxies.MicroserviceLoanBatchProxy;
 import com.thamarai.batch.tasklet.LoanTasklet;
 import org.apache.logging.log4j.LogManager;
@@ -20,12 +17,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-
 @Configuration
 @ComponentScan("com")
 @EnableBatchProcessing
@@ -39,25 +30,18 @@ public class BatchConfig extends DefaultBatchConfigurer {
     @Autowired
     public StepBuilderFactory steps;
 
-    @Autowired
-    MicroserviceLoanBatchProxy microserviceLoanBatchProxy;
-
-    @Autowired
-    JavaMailSender javaMailSender;
-
     @Bean
-    public Step stepOne(){
-        List<Person> persons = microserviceLoanBatchProxy.getAllLoansPersonsLate();
+    public Step stepOne(MicroserviceLoanBatchProxy microserviceLoanBatchProxy, JavaMailSender javaMailSender){
         return steps.get("stepOne")
-                .tasklet(new LoanTasklet(persons, javaMailSender))
+                .tasklet(new LoanTasklet(microserviceLoanBatchProxy, javaMailSender))
                 .build();
     }
 
     @Bean
-    public Job demoJob(){
+    public Job demoJob(MicroserviceLoanBatchProxy microserviceLoanBatchProxy, JavaMailSender javaMailSender){
         return jobs.get("demoJob")
                 .incrementer(new RunIdIncrementer())
-                .start(stepOne())
+                .start(stepOne(microserviceLoanBatchProxy, javaMailSender))
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.thamarai.batch.tasklet;
 
+import com.thamarai.batch.entity.Loan;
 import com.thamarai.batch.entity.Person;
 import com.thamarai.batch.proxies.MicroserviceLoanBatchProxy;
 import org.apache.logging.log4j.LogManager;
@@ -20,33 +21,50 @@ public class LoanTasklet implements Tasklet {
 
     private static final Logger LOGGER = LogManager.getLogger(LoanTasklet.class);
 
+    @Autowired
+    MicroserviceLoanBatchProxy microserviceLoanBatchProxy;
+
+    @Autowired
     private JavaMailSender javaMailSender;
 
-    private List<Person> persons;
-
-    public LoanTasklet(List<Person> persons, JavaMailSender javaMailSender) {
-        this.persons = persons;
+    public LoanTasklet(MicroserviceLoanBatchProxy microserviceLoanBatchProxy, JavaMailSender javaMailSender) {
+        this.microserviceLoanBatchProxy = microserviceLoanBatchProxy;
         this.javaMailSender = javaMailSender;
     }
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext)
     {
+        List<Person> persons = microserviceLoanBatchProxy.getAllLoansPersonsLate();
         persons.stream().forEach(p -> {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setTo(p.getEmail());
 
             simpleMailMessage.setSubject("Retard dans vos emprunts");
             simpleMailMessage.setText(
-                    "Bonjour "+p.getFirstname()+" "+p.getLastname()+" \n"
-                            +"Vous avez des retards d'emprunt \n"
-                            +"Veuillez faire le nécessaire pour être en règle. \n"
-                            +"Cordialement, \n"
-                            +"La direction de la bibliothèque."
+                    "Bonjour "+p.getFirstname()+" "+p.getLastname()+", \n\n"
+                            +"Vous avez des retards d'emprunt : \n"
+                            + this.getListBook(microserviceLoanBatchProxy.getLoansById(p.getId()))
+                            +"\nMerci de faire le nécessaire pour être en règle. \n"
+                            +"\nCordialement, \n\n"
+                            +"La direction de la médiathèque au Mille et un Livres."
             );
             javaMailSender.send(simpleMailMessage);
         });
 
         return RepeatStatus.FINISHED;
+    }
+
+    private String getListBook(List<Loan> list){
+
+        String textList = "";
+
+        for(int i=0; i < list.size(); i++){
+            textList = textList + list.get(i).getCopy().getBook().getTitle()
+                    + " de " + list.get(i).getCopy().getBook().getAuthor()
+                    + "\n";
+        }
+
+        return textList;
     }
 }

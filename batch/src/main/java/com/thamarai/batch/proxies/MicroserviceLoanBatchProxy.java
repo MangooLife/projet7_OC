@@ -20,7 +20,7 @@ public interface MicroserviceLoanBatchProxy {
      * @return Set<Loan>
      */
     @RequestMapping(value = {"/microservice-loan/myLoans/{personId}"}, method = RequestMethod.GET)
-    Set<Loan> getLoansById(@PathVariable Long personId);
+    List<Loan> getLoansById(@PathVariable Long personId);
 
     /**
      * Get all loans
