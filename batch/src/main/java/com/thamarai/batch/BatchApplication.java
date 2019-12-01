@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 @EnableFeignClients
-//@EnableScheduling
+@EnableScheduling
 public class BatchApplication implements CommandLineRunner {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class BatchApplication implements CommandLineRunner {
 	}
 
 	@Override
-	//@Scheduled(cron = "0 1 1 * * ?")
+	@Scheduled(cron = "0 1 1 * * ?")
 	public void run(String... args) throws Exception
 	{
 		JobParameters params = new JobParametersBuilder()
