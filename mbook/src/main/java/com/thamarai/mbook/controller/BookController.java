@@ -10,11 +10,9 @@ import com.thamarai.mbook.service.CopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class BookController {
@@ -30,6 +28,11 @@ public class BookController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * Get list of books by category
+     * @param categoryId
+     * @return List<Book>
+     */
     private List<Book> getListBookByCategory(@PathVariable Long categoryId) {
         Category category;
         try {

@@ -5,7 +5,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @FeignClient(contextId = "microserviceLoanProxy", name = "zuul-server")
 public interface MicroserviceLoanProxy {
