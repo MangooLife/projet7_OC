@@ -181,7 +181,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'john','doa','t.varadarasu@gmail.com','john',0,NULL),(3,'Malcolm','Noname','t.varadarasuu@gmail.com','$2a$12$FJWa8zbij3ON2nrBSRuUkuCc3hxL1CD49eXd3U1RC3iMbo5xdQBv2',0,NULL),(14,'test','test','test@test.com','$2a$12$PWKtAC4UZ2BtjM2X/3oB1.8UTSeNHKUiXtS0xHPES3Mcg3Slrez3i',0,NULL);
+INSERT INTO `person` VALUES (3,'Malcolm','Noname','t.varadarasuu@gmail.com','$2a$12$FJWa8zbij3ON2nrBSRuUkuCc3hxL1CD49eXd3U1RC3iMbo5xdQBv2',0,NULL),(14,'test','test','test@test.com','$2a$12$PWKtAC4UZ2BtjM2X/3oB1.8UTSeNHKUiXtS0xHPES3Mcg3Slrez3i',0,NULL);
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
