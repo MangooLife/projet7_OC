@@ -27,7 +27,7 @@ spring.datasource.password=
 You have to generate a package for each service we need **(follow the order bellow)** 
 1. Open your console
 2. Go in the service file  
-3. Do a : ***./mvnw spring-boot:run*** **(for each service and follow the order bellow)**
+3. Do a : ***mvn clean install*** AND ***./mvnw spring-boot:run*** **(for each service and follow the order bellow)**
 5. Go in your tomcat file (here apache-tomcat-9.0.21) with your console, go in bin/ and do : ***bash startup.sh***
 
 **THE ORDER TO FOLLOW TO DEPLOY THE APPLICATION**
